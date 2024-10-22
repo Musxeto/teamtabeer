@@ -1,0 +1,15 @@
+# Redirect from old paths to new ones (if applicable)
+# Redirect all requests to index.html (your main app)
+/*    /index.html   200
+
+# Add any specific redirects you might need
+/login    /login    200
+/admin    /admin    200
+/team    /team    200
+/admin/new-article    /admin/new-article    200
+/admin/manage-articles    /admin/manage-articles    200
+/admin/settings    /admin/settings    200
+/admin/manage-team    /admin/manage-team    200
+
+# You can also add custom 301 redirects if needed
+# /old-path    /new-path    301
