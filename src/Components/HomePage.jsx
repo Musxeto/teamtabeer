@@ -94,7 +94,7 @@ const HomePage = () => {
             {filteredDates.map((date, index) => (
               <li
                 key={index}
-                className="p-1 cursor-pointer text-left text-lg"
+                className="p-1 cursor-pointer text-white text-left text-lg"
                 onClick={() => navigate(`/articles/${selectedTab}/${date}`)}
               >
                 {date}

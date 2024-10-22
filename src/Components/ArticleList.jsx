@@ -70,18 +70,18 @@ const ArticleList = () => {
           <h2 className="text-lg sm:text-xl md:text-2xl text-white">{date}</h2>
         </div>
 
-        <div className="max-w-lg sm:max-w-xl md:max-w-2xl lg:max-w-3xl">
+        <div className="max-w-lg sm:max-w-xl text-white md:max-w-2xl lg:max-w-3xl">
           <ul className="list-disc pl-5">
             {articles.map((article, index) => (
               <li key={index} className="mb-4">
                 <h3
-                  className="sm:text-lg md:text-xl cursor-pointer hover:text-gray-600"
+                  className="sm:text-lg md:text-xl cursor-pointer text-white hover:text-gray-200"
                   onClick={() => toggleExpand(index)}
                 >
                   {article.title}
                 </h3>
                 {article.expanded && (
-                  <div className="text-gray-700 mt-1">
+                  <div className="text-white mt-1">
                     {/* Move the "posted by" information inside the expanded section */}
 
                     {Array.isArray(article.content) &&
