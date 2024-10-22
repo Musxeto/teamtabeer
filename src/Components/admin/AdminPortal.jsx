@@ -5,7 +5,7 @@ import { FaPen, FaBook, FaCog, FaUsers } from "react-icons/fa";
 
 const AdminPortal = () => {
   return (
-    <div className="flex">
+    <div className="flex bg-tealPrimary text-white">
       <Sidebar />
       <div className="flex-grow p-4">
         <Header />
@@ -15,7 +15,7 @@ const AdminPortal = () => {
         <ul>
           <li className="mb-2 underline">
             <Link to="/admin/new-article" className="text-white flex items-center">
-              Add New Article <FaPen className="ml-2" />
+              Add New <FaPen className="ml-2" />
             </Link>
           </li>
           <li className="mb-2 underline">

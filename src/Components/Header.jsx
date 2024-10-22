@@ -22,7 +22,7 @@ const Header = () => {
         <img
           src={randomImage}
           alt="Header Logo"
-          className="w-auto max-w-[100px] h-full mx-auto z-10"
+          className="w-auto max-w-[150px] h-full mx-auto z-10"
         />
       )}
     </header>
