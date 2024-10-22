@@ -64,10 +64,10 @@ const ArticleList = () => {
   };
   return (
     <>
-      <div className="min-h-screen bg-white p-4 md:p-6 font-garamond">
+      <div className="min-h-screen bg-tealPrimary p-4 md:p-6 font-garamond">
         <Header />
         <div className="text-left my-6">
-          <h2 className="text-lg sm:text-xl md:text-2xl text-black">{date}</h2>
+          <h2 className="text-lg sm:text-xl md:text-2xl text-white">{date}</h2>
         </div>
 
         <div className="max-w-lg sm:max-w-xl md:max-w-2xl lg:max-w-3xl">
@@ -167,7 +167,7 @@ const ArticleList = () => {
               </li>
             ))}
           </ul>
-          <div className="mt-4 text-lg text-black">{currentTime}</div>
+          <div className="mt-4 text-lg text-white">{currentTime}</div>
         </div>
       </div>
     </>

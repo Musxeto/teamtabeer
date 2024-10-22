@@ -31,7 +31,7 @@ const Team = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white p-4 md:p-6 font-garamond font-light">
+    <div className="min-h-screen bg-tealPrimary p-4 md:p-6 font-garamond font-light">
       <Header />
       <p className="text-center">
         written by the youth, curated by IzNE & Abbas, presented by Mustafa
@@ -57,7 +57,7 @@ const Team = () => {
           href="https://docs.google.com/forms/d/e/1FAIpQLScGj8xQdWfzxuVjxt4_5u3pHYoA_tOYwV6Aj93jyOaBJqxt1A/viewform"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-black underline"
+          className="text-white underline"
         >
           JOIN. INKISHAAF.
         </a>

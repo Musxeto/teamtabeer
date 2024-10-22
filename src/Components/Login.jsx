@@ -22,7 +22,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6 m-0">
+    <div className="min-h-screen bg-tealPrimary p-6 m-0">
     <Header />
 
      <div className="mb-6">

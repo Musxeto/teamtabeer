@@ -8,10 +8,6 @@ const Header = () => {
   useEffect(() => {
     const images = [
       "/assets/1.png",
-      "/assets/2.png",
-      "/assets/3.png",
-      "/assets/4.png",
-      "/assets/5.png",
     ];
     const randomIndex = Math.floor(Math.random() * images.length);
     setRandomImage(images[randomIndex]);

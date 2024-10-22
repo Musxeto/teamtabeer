@@ -54,7 +54,7 @@ const HomePage = () => {
 
   return (
     <>
-      <div className="min-h-screen bg-white p-4 md:p-6 font-garamond font-light">
+      <div className="min-h-screen bg-tealPrimary p-4 md:p-6 font-garamond font-light">
         <Header />
         <div className="max-w-lg lg:max-w-4xl xl:max-w-6xl">
           {/* Tab Selection */}
@@ -65,8 +65,8 @@ const HomePage = () => {
                 onClick={() => setSelectedTab(tab)}
                 className={`text-lg ${
                   selectedTab === tab
-                    ? "text-black border-b-2 border-black"
-                    : "text-gray-500"
+                    ? "text-white border-b-2 border-black"
+                    : "text-gray-200"
                 }`}
               >
                 {tab.charAt(0).toUpperCase() + tab.slice(1)}
@@ -76,7 +76,7 @@ const HomePage = () => {
 
           {/* Date Filter */}
           <div className="flex items-center mb-4">
-            <label htmlFor="dateFilter" className="text-lg text-black mr-2">
+            <label htmlFor="dateFilter" className="text-lg text-white mr-2">
               DATE:
             </label>
             <input
@@ -85,7 +85,7 @@ const HomePage = () => {
               value={filter}
               placeholder="Select a Date"
               onChange={handleFilterChange}
-              className="border-0 border-b text-black bg-gray-100 border-gray-400 focus:outline-none focus:border-gray-600 text-lg"
+              className="border-0 border-b text-white bg-tealSecondary border-gray-400 focus:outline-none focus:border-gray-600 text-lg"
             />
           </div>
 
@@ -103,7 +103,7 @@ const HomePage = () => {
           </ul>
 
           {/* Display the current time */}
-          <div className="mt-4 text-lg text-black">{currentTime}</div>
+          <div className="mt-4 text-lg text-white">{currentTime}</div>
         </div>
       </div>
       <Footer />

@@ -14,22 +14,22 @@ const AdminPortal = () => {
         <br />
         <ul>
           <li className="mb-2 underline">
-            <Link to="/admin/new-article" className="text-black flex items-center">
+            <Link to="/admin/new-article" className="text-white flex items-center">
               Add New Article <FaPen className="ml-2" />
             </Link>
           </li>
           <li className="mb-2 underline">
-            <Link to="/admin/manage-articles" className="text-black flex items-center">
+            <Link to="/admin/manage-articles" className="text-white flex items-center">
               Manage Articles <FaBook className="ml-2" />
             </Link>
           </li>
           <li className="mb-2 underline">
-            <Link to="/admin/manage-team" className="text-black flex items-center">
+            <Link to="/admin/manage-team" className="text-white flex items-center">
               Manage Team <FaUsers className="ml-2" />
             </Link>
           </li>
           <li className="mb-2 underline">
-            <Link to="/admin/settings" className="text-black flex items-center">
+            <Link to="/admin/settings" className="text-white flex items-center">
               Settings <FaCog className="ml-2" />
             </Link>
           </li>
