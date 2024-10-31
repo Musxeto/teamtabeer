@@ -26,14 +26,6 @@ const Team = () => {
     fetchTeamMembers();
   }, []);
 
-  if (loading) {
-    return (
-      <div className="text-white min-h-screen bg-tealPrimary flex justify-center items-center text-center">
-        <FaSpinner className="animate-spin" />
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen bg-tealPrimary p-4 md:p-6 font-garamond font-light">
       <Header />
@@ -54,26 +46,32 @@ const Team = () => {
         <h2 className="text-4xl font-bold text-center text-white mb-6">
           Our Team
         </h2>
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {teamMembers.map((member, index) => (
-            <div
-              key={index}
-              className="bg-tealSecondary rounded-lg overflow-hidden shadow-lg transition-transform transform hover:scale-105"
-            >
-              <img
-                src={member.imageUrl} // Assume you have an image URL in your team member data
-                alt={member.name}
-                className="w-full h-48 object-cover"
-              />
-              <div className="p-4">
-                <h3 className="text-lg font-semibold text-white">
-                  {member.name}
-                </h3>
-                <p className="text-white">{member.role}</p>
+        {loading ? (
+          <div className="text-white bg-tealPrimary flex justify-center items-center text-center">
+            <FaSpinner className="animate-spin" />
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {teamMembers.map((member, index) => (
+              <div
+                key={index}
+                className="bg-tealSecondary rounded-lg overflow-hidden shadow-lg transition-transform transform hover:scale-105"
+              >
+                <img
+                  src={member.imageUrl} // Assume you have an image URL in your team member data
+                  alt={member.name}
+                  className="w-full h-48 object-cover"
+                />
+                <div className="p-4">
+                  <h3 className="text-lg font-semibold text-white">
+                    {member.name}
+                  </h3>
+                  <p className="text-white">{member.role}</p>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </section>
 
       <ToastContainer />
