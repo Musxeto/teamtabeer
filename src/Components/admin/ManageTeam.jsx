@@ -1,101 +1,95 @@
 import React, { useState, useEffect } from "react";
 import { db } from "../../firebase";
-import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
+import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 import { ToastContainer, toast } from "react-toastify";
 import AddMemberModal from "./AddMemberModal";
 import "react-toastify/dist/ReactToastify.css";
 
 const ManageTeam = () => {
-  const [writers, setWriters] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
+  const [teamMembers, setTeamMembers] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // Fetch team members from Firestore
   useEffect(() => {
-    const fetchWriters = async () => {
+    const fetchTeamMembers = async () => {
       try {
-        const writersCollection = collection(db, "writers");
-        const writerDocs = await getDocs(writersCollection);
-        setWriters(
-          writerDocs.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
-        );
-        setLoading(false);
+        const querySnapshot = await getDocs(collection(db, "team_members"));
+        const members = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        setTeamMembers(members);
       } catch (error) {
-        toast.error("Failed to load team members");
+        console.error("Error fetching team members: ", error);
+      } finally {
         setLoading(false);
       }
     };
 
-    fetchWriters();
-  }, [isModalOpen]);
+    fetchTeamMembers();
+  }, []);
 
-  const incrementArticles = async (id, currentCount) => {
+  // Function to delete a team member
+  const handleDeleteMember = async (id) => {
     try {
-      setLoading(true);
-      const writerDoc = doc(db, "writers", id);
-      await updateDoc(writerDoc, { articlesWritten: currentCount + 1 });
-      setWriters(
-        writers.map((writer) =>
-          writer.id === id
-            ? { ...writer, articlesWritten: currentCount + 1 }
-            : writer
-        )
-      );
-      toast.success("Article count updated");
+      await deleteDoc(doc(db, "team_members", id));
+      setTeamMembers(teamMembers.filter((member) => member.id !== id));
+      toast.success("Team member deleted successfully!");
     } catch (error) {
-      toast.error("Failed to update article count");
-    } finally {
-      setLoading(false);
+      console.error("Error deleting team member: ", error);
+      toast.error("Failed to delete team member.");
     }
   };
 
-  const handleModalClose = () => {
-    setIsModalOpen(false);
-  };
+  if (loading) {
+    return <div className="text-white text-center">Loading...</div>;
+  }
 
   return (
-    <div className="p-4">
-      <h2 className="text-lg font-bold mb-4">Manage Team</h2>
+    <div className="p-4 bg-tealPrimary min-h-screen text-white">
+      <h2 className="text-2xl font-bold mb-4">Manage Team</h2>
       <button
         onClick={() => setIsModalOpen(true)}
-        className="bg-green-500 text-white p-2 mb-4"
+        className="bg-tealSecondary text-white py-2 px-4 rounded-md mb-4"
       >
-        Add New Member
+        Add Team Member
       </button>
 
-      <table className="table-auto w-full border-collapse">
-        <thead>
-          <tr>
-            <th className="border-b p-2 text-left">Name</th>
-            <th className="border-b p-2 text-left">Instagram</th>
-            <th className="border-b p-2 text-left">Articles Written</th>
-            <th className="border-b p-2 text-left">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {writers.map((writer) => (
-            <tr key={writer.id}>
-              <td className="p-2">{writer.name}</td>
-              <td className="p-2">{writer.instagram}</td>
-              <td className="p-2">{writer.articlesWritten}</td>
-              <td className="p-2">
-                <button
-                  disabled={loading}
-                  onClick={() =>
-                    incrementArticles(writer.id, writer.articlesWritten)
-                  }
-                  className="bg-blue-500 text-white p-1"
-                >
-                  +1 Article
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <ToastContainer />
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {teamMembers.map((member) => (
+          <div
+            key={member.id}
+            className="bg-white rounded-lg overflow-hidden shadow-lg transition-transform transform hover:scale-105"
+          >
+            <img
+              src={member.imageUrl}
+              alt={member.name}
+              className="w-full h-48 object-cover"
+            />
+            <div className="p-4">
+              <h3 className="text-lg font-semibold text-tealPrimary">{member.name}</h3>
+              <p className="text-gray-600">{member.role}</p>
+              <button
+                onClick={() => handleDeleteMember(member.id)}
+                className="mt-2 text-red-500 hover:underline"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
 
-      {/* AddMemberModal to handle new member addition */}
-      <AddMemberModal isOpen={isModalOpen} onClose={handleModalClose} />
+      {/* Modal for adding a team member */}
+      {isModalOpen && (
+        <AddMemberModal
+          onClose={() => setIsModalOpen(false)}
+          onMemberAdded={(newMember) => {
+            setTeamMembers((prev) => [...prev, newMember]);
+            toast.success("Team member added successfully!");
+          }}
+        />
+      )}
+
+      <ToastContainer />
     </div>
   );
 };

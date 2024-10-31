@@ -18,10 +18,10 @@ const Footer = () => {
             <FaInstagram />
           </a> */}
           <button 
-            className="hover:text-gray-400"
+            className="hover:text-gray-400 text-white"
             onClick={() => navigate('/team')}
           >
-            Team
+            About Us
           </button>
         </div>
       </div>

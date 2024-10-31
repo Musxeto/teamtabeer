@@ -4,13 +4,21 @@ import { getFirestore } from 'firebase/firestore';
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyArJL9UiHFc6XrNZo9NZ5HYUJL69qJzj5Y",
-  authDomain: "teamtabeer-2676f.firebaseapp.com",
-  projectId: "teamtabeer-2676f",
-  storageBucket: "teamtabeer-2676f.appspot.com",
-  messagingSenderId: "666551254430",
-  appId: "1:666551254430:web:e4aa884fba5f426d3c2a8f"
+
+  apiKey: "AIzaSyDFKsjRpcGl79pcRywT1QjbvZ1sVJBmJO0",
+
+  authDomain: "tabeer-59924.firebaseapp.com",
+
+  projectId: "tabeer-59924",
+
+  storageBucket: "tabeer-59924.firebasestorage.app",
+
+  messagingSenderId: "280333967807",
+
+  appId: "1:280333967807:web:748914c054475b331ec10a"
+
 };
+
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);

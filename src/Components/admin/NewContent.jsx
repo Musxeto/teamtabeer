@@ -102,8 +102,6 @@ const NewContent = () => {
           required
         >
           <option value="article">Article</option>
-          <option value="news">News</option>
-          <option value="poetry">Poetry</option>
         </select>
       </div>
 

@@ -1,65 +1,82 @@
-import React, { useState } from 'react';
-import { addDoc, collection } from 'firebase/firestore';
-import { db } from '../../firebase';
-import { toast } from 'react-toastify';
+import React, { useState } from "react";
+import { db } from "../../firebase";
+import { collection, addDoc } from "firebase/firestore";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const AddMemberModal = ({ isOpen, onClose }) => {
-  const [name, setName] = useState('');
-  const [instagram, setInstagram] = useState('');
-  const [loading, setLoading] = useState(false);
-  
+const AddMemberModal = ({ onClose, onMemberAdded }) => {
+  const [name, setName] = useState("");
+  const [role, setRole] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     try {
-      await addDoc(collection(db, 'writers'), {
+      const newMember = {
         name,
-        instagram,
-        articlesWritten: 0,
-      });
-      toast.success('New member added successfully');
+        role,
+        imageUrl,
+      };
+      const docRef = await addDoc(collection(db, "team_members"), newMember);
+      onMemberAdded({ id: docRef.id, ...newMember });
+      toast.success("Team member added successfully!");
       onClose();
     } catch (error) {
-      toast.error('Failed to add member');
+      console.error("Error adding team member: ", error);
+      toast.error("Failed to add team member.");
     }
-    setLoading(false);
   };
 
-  if (!isOpen) return null;
-
   return (
-    <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center">
-      <div className="bg-white p-4 rounded">
-        <h2 className="text-lg font-bold">Add New Member</h2>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+      <div className="bg-white rounded-lg p-6 w-96">
+        <h2 className="text-xl font-bold mb-4">Add Team Member</h2>
         <form onSubmit={handleSubmit}>
-          <div className="mb-2">
-            <label>Name:</label>
+          <div className="mb-4">
+            <label className="block mb-2">Name</label>
             <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="border p-2"
               required
+              className="border rounded-md w-full p-2"
             />
           </div>
-          <div className="mb-2">
-            <label>Instagram:</label>
+          <div className="mb-4">
+            <label className="block mb-2">Role</label>
             <input
               type="text"
-              value={instagram}
-              onChange={(e) => setInstagram(e.target.value)}
-              className="border p-2"
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+              required
+              className="border rounded-md w-full p-2"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block mb-2">Image URL</label>
+            <input
+              type="url"
+              value={imageUrl}
+              onChange={(e) => setImageUrl(e.target.value)}
+              required
+              className="border rounded-md w-full p-2"
             />
           </div>
           <button
             type="submit"
-            className="bg-green-500 text-white p-2"
-            disabled={loading}
+            className="bg-tealPrimary text-white py-2 px-4 rounded-md"
           >
-            {loading ? 'Adding...' : 'Add Member'}
+            Add Member
           </button>
         </form>
+        <button
+          onClick={onClose}
+          className="mt-4 text-gray-600 hover:underline"
+        >
+          Cancel
+        </button>
       </div>
+      <ToastContainer />
     </div>
   );
 };

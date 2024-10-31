@@ -1,67 +1,81 @@
 import React, { useState, useEffect } from "react";
 import { db } from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Header from "./Header";
+import { FaSpinner } from "react-icons/fa";
 
 const Team = () => {
-  const [writers, setWriters] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [teamMembers, setTeamMembers] = useState([]);
 
   useEffect(() => {
-    const fetchWriters = async () => {
+    const fetchTeamMembers = async () => {
       try {
-        const writersCollection = collection(db, "writers");
-        const writerDocs = await getDocs(writersCollection);
-        setWriters(writerDocs.docs.map((doc) => doc.data()));
-        setLoading(false);
+        const querySnapshot = await getDocs(collection(db, "team_members"));
+        const members = querySnapshot.docs.map((doc) => doc.data());
+        setTeamMembers(members);
       } catch (error) {
-        toast.error("Failed to load writers");
+        console.error("Error fetching team members: ", error);
+      } finally {
         setLoading(false);
       }
     };
 
-    fetchWriters();
+    fetchTeamMembers();
   }, []);
 
-  const getInitials = (name) => {
-    const names = name.split(" ");
-    return names.map((n) => n.charAt(0)).join(". ") + ".";
-  };
+  if (loading) {
+    return (
+      <div className="text-white min-h-screen bg-tealPrimary flex justify-center items-center text-center">
+        <FaSpinner className="animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-tealPrimary p-4 md:p-6 font-garamond font-light">
       <Header />
-      <p className="text-center">
-        written by the youth, curated by IzNE & Abbas, presented by Mustafa
-      </p>
-      <br />
-      <h2 className="writers-heading">Writers</h2>
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <ul>
-          {writers.map((writer, index) => (
-            <li key={index} className="mb-4">
-              <p className="flex justify-between text-lg">
-                <span>{getInitials(writer.name)}</span>
-                <span>{writer.articlesWritten}</span>
-              </p>
-            </li>
+
+      <section className="text-center mb-8">
+        <h1 className="text-5xl font-bold text-white">T A B E E R</h1>
+        <h2 className="text-3xl text-gray-200 mt-2">Charity Organization</h2>
+        <h3 className="text-xl text-gray-300 mt-1">‘اقبال کے خواب کی تعبیر’</h3>
+        <p className="mt-4 text-lg text-gray-300">
+          Pioneering Sustainability, Moulding Tomorrow.
+        </p>
+        <p className="mt-2 text-md text-gray-300">
+          Email: teamtabeerofficial@gmail.com
+        </p>
+      </section>
+
+      <section className="mt-10">
+        <h2 className="text-4xl font-bold text-center text-white mb-6">
+          Our Team
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {teamMembers.map((member, index) => (
+            <div
+              key={index}
+              className="bg-white rounded-lg overflow-hidden shadow-lg transition-transform transform hover:scale-105"
+            >
+              <img
+                src={member.imageUrl} // Assume you have an image URL in your team member data
+                alt={member.name}
+                className="w-full h-48 object-cover"
+              />
+              <div className="p-4">
+                <h3 className="text-lg font-semibold text-tealPrimary">
+                  {member.name}
+                </h3>
+                <p className="text-gray-600">{member.role}</p>
+              </div>
+            </div>
           ))}
-        </ul>
-      )}
-      <div className="text-center my-4">
-        <a
-          href="https://docs.google.com/forms/d/e/1FAIpQLScGj8xQdWfzxuVjxt4_5u3pHYoA_tOYwV6Aj93jyOaBJqxt1A/viewform"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-white underline"
-        >
-          JOIN. INKISHAAF.
-        </a>
-      </div>
+        </div>
+      </section>
+
       <ToastContainer />
     </div>
   );
